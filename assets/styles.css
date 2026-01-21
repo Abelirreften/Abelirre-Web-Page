@@ -145,8 +145,6 @@ h2 { font-size: 2.5rem; }
         background-position: 0% center;
     }
     100% {
-        /* CAMBIO AQUÍ: Desplazamos exactamente el 200% hacia la izquierda.
-           Al ser el mismo tamaño que el fondo, el final encaja perfecto con el inicio. */
         background-position: -200% center;
     }
 }
@@ -155,15 +153,15 @@ h2 { font-size: 2.5rem; }
 .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 .loading-spinner { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary); }
 
-/* --- NUEVA SECCIÓN: SOCIAL HERO --- */
-#social-hero { padding-top: 40px; } /* Un poco menos de padding arriba */
+/* --- SECCIÓN: SOCIAL HERO --- */
+#social-hero { padding-top: 40px; }
 
 .social-hero-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dos columnas en escritorio, una en móvil */
     gap: 25px;
-    max-width: 900px; /* Ancho máximo para que no se estiren demasiado */
-    margin: 0 auto; /* Centrado */
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .social-hero-card {
@@ -171,13 +169,13 @@ h2 { font-size: 2.5rem; }
     align-items: center;
     background: var(--bg-secondary);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px; /* Bordes más redondeados */
+    border-radius: 20px;
     padding: 25px;
     text-decoration: none;
     color: var(--text-primary);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
-    overflow: hidden; /* Para el efecto de brillo */
+    overflow: hidden;
 }
 
 /* Efecto Hover General */
@@ -195,7 +193,7 @@ h2 { font-size: 2.5rem; }
 .social-icon-large {
     width: 60px;
     height: 60px;
-    flex-shrink: 0; /* Que no se aplaste */
+    flex-shrink: 0;
     margin-right: 20px;
     display: flex;
     align-items: center;
@@ -206,17 +204,17 @@ h2 { font-size: 2.5rem; }
 .social-icon-large svg {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2)); /* Sombra sutil al icono */
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
     transition: transform 0.3s ease;
 }
 
 .social-hero-card:hover .social-icon-large img,
 .social-hero-card:hover .social-icon-large svg {
-    transform: scale(1.1) rotate(-5deg); /* Pequeña animación al icono */
+    transform: scale(1.1) rotate(-5deg);
 }
 
 .social-info {
-    flex-grow: 1; /* Ocupa el espacio central */
+    flex-grow: 1;
 }
 
 .social-info h3 {
@@ -233,18 +231,18 @@ h2 { font-size: 2.5rem; }
 .social-arrow {
     font-size: 1.5rem;
     color: var(--text-secondary);
-    opacity: 0; /* Oculto por defecto */
-    transform: translateX(-10px); /* Desplazado a la izquierda */
+    opacity: 0;
+    transform: translateX(-10px);
     transition: all 0.3s ease;
 }
 
 .social-hero-card:hover .social-arrow {
     opacity: 1;
-    transform: translateX(0); /* Aparece y se mueve a su sitio */
+    transform: translateX(0);
     color: var(--text-primary);
 }
 
-/* Efecto de Play sobre las miniaturas de YouTube */
+/* Icono de Play sobre las miniaturas de YouTube */
 .play-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -254,12 +252,12 @@ h2 { font-size: 2.5rem; }
 }
 .card-media a:hover .play-overlay {
     opacity: 1;
-    background: rgba(0,0,0,0.1); /* Se aclara al pasar el ratón */
+    background: rgba(0,0,0,0.1);
 }
 
-/* --- NUEVOS ESTILOS PARA EL CONTENEDOR DE VÍDEOS --- */
+/* --- ESTILOS: CONTENEDOR DE VÍDEOS --- */
 
-/* 1. Estilo de la caja contenedora (Borde discontinuo y fondo oscuro) */
+/* Estilo de la caja contenedora (Borde discontinuo y fondo oscuro) */
 .section-box-container {
     background: rgba(26, 22, 37, 0.4); /* Fondo oscuro sutil */
     border: 2px dashed rgba(133, 96, 219, 0.4); /* Borde discontinuo morado */
@@ -268,34 +266,29 @@ h2 { font-size: 2.5rem; }
     margin-bottom: 30px;
 }
 
-/* 2. Modificador para hacer el grid más pequeño y denso */
-/* Esto sobrescribe la regla estándar de .projects-grid solo cuando lleva esta clase */
 .smaller-grid {
-    /* Reducimos el ancho mínimo de columna de 320px a 240px.
-       Esto hace que las tarjetas sean más pequeñas y quepan más por fila.
-    */
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px; /* Un poco menos de espacio entre tarjetas que el grid normal */
+    gap: 20px;
 }
 
-/* 3. Ajustes de texto para que se vea bien en tarjetas pequeñas */
+/* Ajustes de texto para que se vea bien en tarjetas pequeñas */
 .smaller-grid .project-card .card-content {
-    padding: 15px; /* Menos padding interno */
+    padding: 15px;
 }
 
 .smaller-grid .project-card .card-title {
-    font-size: 1rem; /* Título ligeramente más pequeño */
+    font-size: 1rem;
     margin-bottom: 8px;
     line-height: 1.3;
 }
 
 .smaller-grid .project-card .card-desc {
-    font-size: 0.85rem; /* Fecha más pequeña */
+    font-size: 0.85rem;
 }
 
-/* --- NUEVO FONDO LÍQUIDO ANIMADO --- */
+/* --- FONDO: LÍQUIDO ANIMADO --- */
 
-/* 1. Definimos los colores extraídos de la imagen de referencia */
+/* Colores */
 :root {
     --liquid-blue-deep: #0011ff;
     --liquid-cyan: #00f7ff;
@@ -304,50 +297,46 @@ h2 { font-size: 2.5rem; }
     --liquid-pink: #f72585;
 }
 
-/* 2. Preparamos el body para contener las capas */
+/* Body container */
 body {
-    position: relative; /* Necesario para posicionar las capas internas */
-    /* Color de fondo de respaldo por si falla la carga */
+    position: relative; /* Posicionar las capas internas */
+    /* Color de fondo por si falla la carga */
     background-color: var(--bg-primary);
-    /* Aseguramos que el body ocupe toda la pantalla */
+    /* Body Full Screen */
     min-height: 100vh;
 }
 
-/* CAPA 1 (FONDO): El degradado líquido animado 
-   Usamos body::before para crear esta capa detrás de todo.
+/* CAPA 1 (FONDO): Degradado líquido animado 
+   "body::before" -> capa -2.
 */
 body::before {
     content: '';
-    position: fixed; /* Fijo para que no se mueva al hacer scroll */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2; /* La capa más profunda */
+    z-index: -2;
     
-    /* Creamos una "sopa" de colores usando múltiples degradados radiales.
-       Al superponerlos y difuminarlos, se crea el efecto líquido.
-    */
+    /* Capas con degradados radiales. Superpuestos y difuminados */
     background: 
         radial-gradient(circle at 80% 20%, var(--liquid-orange) 0%, transparent 50%),
         radial-gradient(circle at 40% 70%, var(--liquid-purple) 0%, transparent 50%),
         radial-gradient(circle at 70% 80%, var(--liquid-pink) 0%, transparent 50%),
         linear-gradient(to bottom right, var(--liquid-blue-deep), #000); /* Base oscura */
         
-    /* Hacemos el fondo más grande que la pantalla para poder moverlo */
     background-size: 180% 180%;
     
-    /* Aplicamos un desenfoque fuerte para mezclar los colores como líquido */
+    /* Blurr */
     filter: blur(60px);
-    /* Opacidad para que no sea demasiado intenso */
     opacity: 0.8;
     
     /* Animación suave y lenta */
     animation: liquidFlow 25s ease infinite alternate;
 }
 
-/* CAPA 2 (FILTRO): El oscurecedor para la legibilidad
-   Usamos body::after para esta capa intermedia.
+/* CAPA 2 (FILTRO): Capa oscura para leer bien
+   "body::after" -> capa -1
 */
 body::after {
     content: '';
@@ -356,20 +345,17 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Delante del fondo, pero detrás del contenido */
+    z-index: -1;
     
     /* Color oscuro semi-transparente.
-       Ajusta el último valor (0.8) entre 0.1 y 1 para más o menos oscuridad.
+       Último valor: 0.1 / 1 para más o menos oscuridad.
     */
     background: rgba(10, 4, 26, 0.8);
     
-    /* Un ligero desenfoque extra para dar profundidad (opcional) */
     backdrop-filter: blur(5px);
 }
 
-/* Animación del movimiento
-   Mueve lentamente la posición del fondo gigante.
-*/
+/* Animación del movimiento del fondo */
 @keyframes liquidFlow {
     0% {
         background-position: 0% 0%;
@@ -382,21 +368,17 @@ body::after {
     }
 }
 
-/* IMPORTANTE: Asegurar que el contenido principal esté por encima.
-   Añade 'position: relative' y 'z-index: 1' a tus secciones principales.
-*/
+/* 'z-index' de las secciones principales */
 .navbar.footer {
     position: fixed;
     z-index: 2;
 }
-.hero, 
-.section, 
-.footer {
+.hero,  .section,  .footer {
     position: relative;
     z-index: 1;
 }
 
-/* --- ESTADÍSTICAS YOUTUBE --- */
+/* ESTADÍSTICAS YOUTUBE */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -429,7 +411,6 @@ body::after {
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 5px;
-    /* Aseguramos que el degradado se vea bien en texto grande */
     line-height: 1.2;
 }
 

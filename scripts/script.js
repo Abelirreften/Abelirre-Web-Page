@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // 1. CONFIGURACIÓN
-    const YOUTUBE_CHANNEL_ID = "UCEfEyfnWI3GBCrByIXBnMEw"; // <--- ¡AQUÍ PON TU ID DE CANAL REAL! (Este es un ejemplo)
-    // Nota: Si tu URL es youtube.com/channel/UCxxxx, copia el UCxxxx.
-    // Si usas @Abelirre, necesitas buscar el ID "UC..." usando una web como "commentpicker.com/youtube-channel-id.php"
+    const YOUTUBE_CHANNEL_ID = "UCEfEyfnWI3GBCrByIXBnMEw"; // ID YouTube (config de YouTube)
 
-    // 2. DATOS DE TUS JUEGOS (Edita esto para añadir más)
+    // 2. DATOS DE JUEGOS Y PROYECTOS
     const MY_GAMES = [
         {
             title: "Blood Runner",
@@ -27,9 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     ];
 
-    // --- LÓGICA DEL CÓDIGO (NO TOCAR MUCHO) ---
-
-    // A. Renderizar Juegos
+    // RENDER TARJETA JUEGOS
     const gamesContainer = document.getElementById('games-container');
     if(gamesContainer) {
         gamesContainer.innerHTML = MY_GAMES.map(game => `
@@ -46,11 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-// B. Fetch YouTube Videos (Automático vía RSS a JSON)
+    // FETCH YOUTUBE VIDEOS (Automático vía RSS a JSON)
     const ytContainer = document.getElementById('youtube-container');
-    
-    // Recuerda poner tu ID real aquí si aún no lo has hecho
-    // const YOUTUBE_CHANNEL_ID = "UCt5y2R1z4jFfX8y5v7y6g6w"; 
     
     const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`;
     const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
@@ -60,14 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'ok') {
-                    // CAMBIO 1: Aquí cambiamos el límite de 4 a 6
-                    const videos = data.items.slice(0, 8);
+                    
+                    const videos = data.items.slice(0, 8); // Límite de paneles (min / max)
                     
                     ytContainer.innerHTML = videos.map(video => {
-                        // Extraemos el ID del video
-                        const videoId = video.link.split('v=')[1];
-                        // Usamos 'maxresdefault.jpg' para la versión 16:9 sin barras negras
-                        const thumbnail = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+                        
+                        const videoId = video.link.split('v=')[1]; // Extraer ID del video
+                        
+                        const thumbnail = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`; // 'maxresdefault.jpg' para miniaturas a 16:9
                         
                         return `
                         <div class="project-card animate-on-scroll">
@@ -97,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // C. Animaciones al hacer Scroll
+    // ANIMACIONES SCROLL
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -112,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     observeAnimations();
 
-    // D. Menú Móvil
+    // CONFIG MENU EN MÓVIL
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
     
@@ -121,23 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.toggle('active');
         });
         
-        // Cerrar menú al hacer click en un enlace
+        // Cerrar menú al hacer click en enlace
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => navMenu.classList.remove('active'));
         });
     }
 
-    // --- ESTADÍSTICAS DE YOUTUBE ---
+    // ESTADÍSTICAS DE YOUTUBE
     
-    // 1. Tu API KEY
+    // API KEY (Google Cloud Console)
     const API_KEY = "AIzaSyA9IqIgrr_-VsaGevqxSDi9sEUbXUbGULg"; 
 
-    // 2. Horas manuales
+    // Horas de Visualización - CAMBIO MANUAL (no se puede actualizar, son datos privados de YT)
     const MANUAL_WATCH_HOURS = "25.700+"; 
 
     const statsContainer = document.querySelector('.stats-grid');
 
-    // CORRECCIÓN AQUÍ: Solo comprobamos que statsContainer y API_KEY existan
     if(statsContainer && API_KEY) { 
         const STATS_URL = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${YOUTUBE_CHANNEL_ID}&key=${API_KEY}`;
 
