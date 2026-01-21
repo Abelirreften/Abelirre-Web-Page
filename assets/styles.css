@@ -1,0 +1,458 @@
+/* --- VARIABLES --- */
+:root {
+    --color-purple: #6400FF;
+    --color-pink: #ee07fe;
+    --color-orange: #fe8948;
+    --bg-primary: #0f0d1a;
+    --bg-secondary: #1a1625;
+    --bg-card: rgba(26, 22, 37, 0.6);
+    --text-primary: #f8fafc;
+    --text-secondary: #a1a1aa;
+    --gradient-primary: linear-gradient(135deg, var(--color-purple), var(--color-pink), var(--color-orange));
+    --gradient-text: linear-gradient(90deg, var(--color-purple), var(--color-pink), var(--color-orange), var(--color-purple));
+    --radius: 16px;
+}
+
+/* --- RESET & BASE --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- UTILITIES --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.text-center { text-align: center; }
+.mt-3 { margin-top: 3rem; }
+img { max-width: 100%; height: auto; }
+
+/* Gradient Overlay Background */
+.bg-gradient-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    background: radial-gradient(circle at 20% 20%, #222222, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.1), transparent 50%);
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3 { font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+h2 { font-size: 2.5rem; }
+.gradient-text {
+    background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; color: transparent;
+    background-size: 200% auto; /* Aumentamos a 300% para una transición más fluida */
+    animation: gradientFlow 6s infinite linear; /* Aumentamos un poco el tiempo */
+}
+
+/* --- NAVBAR --- */
+.navbar { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 15px 0; background: rgba(15, 13, 26, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: #fff; text-decoration: none; }
+.nav-logo img { height: 35px; border-radius: 5px; }
+.nav-menu { display: flex; list-style: none; gap: 30px; }
+.nav-link { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: 0.3s; }
+.nav-link:hover { color: #fff; }
+
+/* Mobile Menu Toggle */
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+.nav-toggle span { width: 25px; height: 3px; background: var(--color-pink); }
+
+@media (max-width: 768px) {
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-secondary); flex-direction: column; padding: 20px; text-align: center; }
+    .nav-menu.active { display: flex; }
+    .nav-toggle { display: flex; }
+}
+
+/* --- HERO SECTION --- */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
+.hero-logo { width: 180px; border-radius: 20px; margin-bottom: 2rem; animation: float 6s ease-in-out infinite; box-shadow: 0 0 30px rgba(133, 96, 219, 0.3); }
+.hero-subtitle { font-size: 1.2rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto 2rem; }
+
+/* --- BUTTONS --- */
+.btn { display: inline-block; padding: 12px 30px; border-radius: 50px; font-weight: 600; text-decoration: none; transition: 0.3s; cursor: pointer; border: none; }
+.btn-primary { background: var(--gradient-primary); color: #fff; box-shadow: 0 5px 15px rgba(223, 95, 208, 0.3); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(223, 95, 208, 0.5); animation: pulseGlow 2s infinite; }
+.btn-secondary { background: transparent; border: 2px solid var(--color-purple); color: #fff; }
+.btn-secondary:hover { background: var(--color-purple); animation: pulseGlow 2s infinite; }
+.btn-group { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+
+/* --- SECTIONS & CARDS --- */
+.section { padding: 80px 0; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-header p { color: var(--text-secondary); }
+
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: var(--radius); transition: 0.3s; }
+.card:hover { transform: translateY(-10px); border-color: var(--color-purple); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.card-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    border-radius: var(--radius);
+    margin-bottom: var(--radius);
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+    /* Smooth transition for icon */
+}
+
+/* --- PORTFOLIO / VIDEO GRID (NUEVO) --- */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+
+/* Tarjetas de Proyecto/Video */
+.project-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+.project-card:hover { transform: translateY(-5px); border-color: var(--color-pink); }
+
+.card-media { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; }
+.card-media iframe { width: 100%; height: 100%; border: none; }
+
+.card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+.card-title { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+.card-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px; flex-grow: 1; }
+
+.card-link { 
+    color: var(--color-pink); font-weight: 600; text-decoration: none; font-size: 0.9rem; 
+    display: inline-flex; align-items: center; gap: 5px;
+}
+.card-link:hover { text-decoration: underline; }
+
+/* --- CONTACT & FOOTER --- */
+.contact-card { text-align: center; background: linear-gradient(135deg, rgba(133, 96, 219, 0.1), rgba(223, 95, 208, 0.1)); padding: 60px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); }
+.social-links-row { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
+.social-links-row a { color: var(--text-secondary); text-decoration: none; transition: 0.2s; }
+.social-links-row a:hover { color: var(--color-pink); }
+
+.footer { padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px; background: var(--bg-secondary); }
+
+/* --- ANIMATIONS --- */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        /* CAMBIO AQUÍ: Desplazamos exactamente el 200% hacia la izquierda.
+           Al ser el mismo tamaño que el fondo, el final encaja perfecto con el inicio. */
+        background-position: -200% center;
+    }
+}
+
+.animate-on-scroll { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+.animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+.loading-spinner { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary); }
+
+/* --- NUEVA SECCIÓN: SOCIAL HERO --- */
+#social-hero { padding-top: 40px; } /* Un poco menos de padding arriba */
+
+.social-hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dos columnas en escritorio, una en móvil */
+    gap: 25px;
+    max-width: 900px; /* Ancho máximo para que no se estiren demasiado */
+    margin: 0 auto; /* Centrado */
+}
+
+.social-hero-card {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; /* Bordes más redondeados */
+    padding: 25px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave */
+    position: relative;
+    overflow: hidden; /* Para el efecto de brillo */
+}
+
+/* Efecto Hover General */
+.social-hero-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Colores Específicos por Red y Efectos de Brillo */
+.social-hero-card.youtube:hover { border-color: #FF0000; box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2); }
+.social-hero-card.twitch:hover { border-color: #9146FF; box-shadow: 0 10px 30px rgba(145, 70, 255, 0.2); }
+.social-hero-card.twitter:hover { border-color: var(--text-primary); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1); }
+.social-hero-card.discord:hover { border-color: #5865F2; box-shadow: 0 10px 30px rgba(88, 101, 242, 0.2); }
+
+.social-icon-large {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0; /* Que no se aplaste */
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-icon-large img,
+.social-icon-large svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2)); /* Sombra sutil al icono */
+    transition: transform 0.3s ease;
+}
+
+.social-hero-card:hover .social-icon-large img,
+.social-hero-card:hover .social-icon-large svg {
+    transform: scale(1.1) rotate(-5deg); /* Pequeña animación al icono */
+}
+
+.social-info {
+    flex-grow: 1; /* Ocupa el espacio central */
+}
+
+.social-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.3rem;
+}
+
+.social-info p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.social-arrow {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    opacity: 0; /* Oculto por defecto */
+    transform: translateX(-10px); /* Desplazado a la izquierda */
+    transition: all 0.3s ease;
+}
+
+.social-hero-card:hover .social-arrow {
+    opacity: 1;
+    transform: translateX(0); /* Aparece y se mueve a su sitio */
+    color: var(--text-primary);
+}
+
+/* Efecto de Play sobre las miniaturas de YouTube */
+.play-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 3rem; opacity: 0; transition: 0.3s;
+}
+.card-media a:hover .play-overlay {
+    opacity: 1;
+    background: rgba(0,0,0,0.1); /* Se aclara al pasar el ratón */
+}
+
+/* --- NUEVOS ESTILOS PARA EL CONTENEDOR DE VÍDEOS --- */
+
+/* 1. Estilo de la caja contenedora (Borde discontinuo y fondo oscuro) */
+.section-box-container {
+    background: rgba(26, 22, 37, 0.4); /* Fondo oscuro sutil */
+    border: 2px dashed rgba(133, 96, 219, 0.4); /* Borde discontinuo morado */
+    border-radius: 20px;
+    padding: 30px; /* Espacio interno alrededor de las tarjetas */
+    margin-bottom: 30px;
+}
+
+/* 2. Modificador para hacer el grid más pequeño y denso */
+/* Esto sobrescribe la regla estándar de .projects-grid solo cuando lleva esta clase */
+.smaller-grid {
+    /* Reducimos el ancho mínimo de columna de 320px a 240px.
+       Esto hace que las tarjetas sean más pequeñas y quepan más por fila.
+    */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px; /* Un poco menos de espacio entre tarjetas que el grid normal */
+}
+
+/* 3. Ajustes de texto para que se vea bien en tarjetas pequeñas */
+.smaller-grid .project-card .card-content {
+    padding: 15px; /* Menos padding interno */
+}
+
+.smaller-grid .project-card .card-title {
+    font-size: 1rem; /* Título ligeramente más pequeño */
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.smaller-grid .project-card .card-desc {
+    font-size: 0.85rem; /* Fecha más pequeña */
+}
+
+/* --- NUEVO FONDO LÍQUIDO ANIMADO --- */
+
+/* 1. Definimos los colores extraídos de la imagen de referencia */
+:root {
+    --liquid-blue-deep: #0011ff;
+    --liquid-cyan: #00f7ff;
+    --liquid-orange: #fb8500;
+    --liquid-purple: #6400ff;
+    --liquid-pink: #f72585;
+}
+
+/* 2. Preparamos el body para contener las capas */
+body {
+    position: relative; /* Necesario para posicionar las capas internas */
+    /* Color de fondo de respaldo por si falla la carga */
+    background-color: var(--bg-primary);
+    /* Aseguramos que el body ocupe toda la pantalla */
+    min-height: 100vh;
+}
+
+/* CAPA 1 (FONDO): El degradado líquido animado 
+   Usamos body::before para crear esta capa detrás de todo.
+*/
+body::before {
+    content: '';
+    position: fixed; /* Fijo para que no se mueva al hacer scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* La capa más profunda */
+    
+    /* Creamos una "sopa" de colores usando múltiples degradados radiales.
+       Al superponerlos y difuminarlos, se crea el efecto líquido.
+    */
+    background: 
+        radial-gradient(circle at 80% 20%, var(--liquid-orange) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, var(--liquid-purple) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, var(--liquid-pink) 0%, transparent 50%),
+        linear-gradient(to bottom right, var(--liquid-blue-deep), #000); /* Base oscura */
+        
+    /* Hacemos el fondo más grande que la pantalla para poder moverlo */
+    background-size: 180% 180%;
+    
+    /* Aplicamos un desenfoque fuerte para mezclar los colores como líquido */
+    filter: blur(60px);
+    /* Opacidad para que no sea demasiado intenso */
+    opacity: 0.8;
+    
+    /* Animación suave y lenta */
+    animation: liquidFlow 25s ease infinite alternate;
+}
+
+/* CAPA 2 (FILTRO): El oscurecedor para la legibilidad
+   Usamos body::after para esta capa intermedia.
+*/
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Delante del fondo, pero detrás del contenido */
+    
+    /* Color oscuro semi-transparente.
+       Ajusta el último valor (0.8) entre 0.1 y 1 para más o menos oscuridad.
+    */
+    background: rgba(10, 4, 26, 0.8);
+    
+    /* Un ligero desenfoque extra para dar profundidad (opcional) */
+    backdrop-filter: blur(5px);
+}
+
+/* Animación del movimiento
+   Mueve lentamente la posición del fondo gigante.
+*/
+@keyframes liquidFlow {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 30% 60%;
+    }
+}
+
+/* IMPORTANTE: Asegurar que el contenido principal esté por encima.
+   Añade 'position: relative' y 'z-index: 1' a tus secciones principales.
+*/
+.navbar.footer {
+    position: fixed;
+    z-index: 2;
+}
+.hero, 
+.section, 
+.footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- ESTADÍSTICAS YOUTUBE --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: rgba(26, 22, 37, 0.6); /* Fondo semitransparente */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--color-pink);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    /* Aseguramos que el degradado se vea bien en texto grande */
+    line-height: 1.2;
+}
+
+.stat-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* ANIMATIONS */
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+}

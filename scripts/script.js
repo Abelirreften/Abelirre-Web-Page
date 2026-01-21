@@ -1,0 +1,170 @@
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. CONFIGURACIÓN
+    const YOUTUBE_CHANNEL_ID = "UCEfEyfnWI3GBCrByIXBnMEw"; // <--- ¡AQUÍ PON TU ID DE CANAL REAL! (Este es un ejemplo)
+    // Nota: Si tu URL es youtube.com/channel/UCxxxx, copia el UCxxxx.
+    // Si usas @Abelirre, necesitas buscar el ID "UC..." usando una web como "commentpicker.com/youtube-channel-id.php"
+
+    // 2. DATOS DE TUS JUEGOS (Edita esto para añadir más)
+    const MY_GAMES = [
+        {
+            title: "Blood Runner",
+            description: "Un platformer 2D pixel art con enemigos y mucho frenetismo. Proyecto universitario.",
+            image: "assets/images/BloodRunner_Portada.png",
+            link: "https://abelirre.itch.io/bloodrunner"
+        },
+        {
+            title: "Desinformator",
+            description: "Juego 3D en primera persona en el que el jugador está en un sótano intentando desinformar al mundo entero.",
+            image: "assets/images/Desinformator_Portada.png",
+            link: "https://abelirre.itch.io/desinformator"
+        },
+        {
+            title: "The Warehouse",
+            description: "Adéntrate en un almacén aislado en las montañas y descubre los secretos más oscuros que allí se guardan.",
+            image: "assets/images/TheWarehouse_Portada.png",
+            link: "https://abelirre.itch.io/the-warehouse"
+        },
+    ];
+
+    // --- LÓGICA DEL CÓDIGO (NO TOCAR MUCHO) ---
+
+    // A. Renderizar Juegos
+    const gamesContainer = document.getElementById('games-container');
+    if(gamesContainer) {
+        gamesContainer.innerHTML = MY_GAMES.map(game => `
+            <div class="project-card animate-on-scroll">
+                <div class="card-media">
+                    <img src="${game.image}" alt="${game.title}" onerror="this.style.display='none';this.parentElement.style.background='#2a2a3d'">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">${game.title}</h3>
+                    <p class="card-desc">${game.description}</p>
+                    <a href="${game.link}" target="_blank" class="card-link">Jugar Ahora →</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+// B. Fetch YouTube Videos (Automático vía RSS a JSON)
+    const ytContainer = document.getElementById('youtube-container');
+    
+    // Recuerda poner tu ID real aquí si aún no lo has hecho
+    // const YOUTUBE_CHANNEL_ID = "UCt5y2R1z4jFfX8y5v7y6g6w"; 
+    
+    const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`;
+    const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+
+    if(ytContainer) {
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    // CAMBIO 1: Aquí cambiamos el límite de 4 a 6
+                    const videos = data.items.slice(0, 8);
+                    
+                    ytContainer.innerHTML = videos.map(video => {
+                        // Extraemos el ID del video
+                        const videoId = video.link.split('v=')[1];
+                        // Usamos 'maxresdefault.jpg' para la versión 16:9 sin barras negras
+                        const thumbnail = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+                        
+                        return `
+                        <div class="project-card animate-on-scroll">
+                            <div class="card-media">
+                                <a href="${video.link}" target="_blank" style="display:block; width:100%; height:100%; position:relative;">
+                                    <img src="${thumbnail}" alt="${video.title}" style="width:100%; height:100%; object-fit:cover; display:block;">
+                                    <div class="play-overlay">▶</div>
+                                </a>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">${video.title}</h3>
+                                <p class="card-desc">Publicado el: ${new Date(video.pubDate).toLocaleDateString()}</p>
+                                <a href="${video.link}" target="_blank" class="card-link">Ver en YouTube →</a>
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+                    
+                    observeAnimations();
+                } else {
+                    ytContainer.innerHTML = `<p class="text-center">No se pudieron cargar los vídeos.</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error cargando YouTube:', error);
+                ytContainer.innerHTML = `<p class="text-center">Error de conexión con YouTube.</p>`;
+            });
+    }
+
+    // C. Animaciones al hacer Scroll
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    function observeAnimations() {
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    }
+    observeAnimations();
+
+    // D. Menú Móvil
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if(navToggle) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Cerrar menú al hacer click en un enlace
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => navMenu.classList.remove('active'));
+        });
+    }
+
+    // --- ESTADÍSTICAS DE YOUTUBE ---
+    
+    // 1. Tu API KEY
+    const API_KEY = "AIzaSyA9IqIgrr_-VsaGevqxSDi9sEUbXUbGULg"; 
+
+    // 2. Horas manuales
+    const MANUAL_WATCH_HOURS = "25.700+"; 
+
+    const statsContainer = document.querySelector('.stats-grid');
+
+    // CORRECCIÓN AQUÍ: Solo comprobamos que statsContainer y API_KEY existan
+    if(statsContainer && API_KEY) { 
+        const STATS_URL = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${YOUTUBE_CHANNEL_ID}&key=${API_KEY}`;
+
+        fetch(STATS_URL)
+            .then(res => res.json())
+            .then(data => {
+                if(data.items && data.items.length > 0) {
+                    const stats = data.items[0].statistics;
+
+                    // Función para formatear números
+                    const formatNum = (num) => new Intl.NumberFormat('es-ES').format(num);
+
+                    // Inyectar datos en el HTML
+                    document.getElementById('stat-subs').innerText = formatNum(stats.subscriberCount);
+                    document.getElementById('stat-views').innerText = formatNum(stats.viewCount);
+                    document.getElementById('stat-videos').innerText = formatNum(stats.videoCount);
+                    document.getElementById('stat-hours').innerText = MANUAL_WATCH_HOURS;
+                } else {
+                    console.error("La API no devolvió datos. Revisa el ID del canal.");
+                }
+            })
+            .catch(err => console.error("Error cargando stats:", err));
+    } else {
+        // Datos de ejemplo si falla algo
+        if(document.getElementById('stat-subs')) {
+            document.getElementById('stat-subs').innerText = "---";
+            document.getElementById('stat-hours').innerText = MANUAL_WATCH_HOURS;
+        }
+    }
+});
